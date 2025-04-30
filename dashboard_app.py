@@ -10,15 +10,15 @@ import cartopy.feature as cfeature
 from matplotlib.patches import FancyArrowPatch
 import numpy as np
 
-price_france=pd.read_csv(r"C:\temp\day_ahead_price_france.csv", sep=",")
-price_belgium=pd.read_csv(r"C:\temp\day_ahead_price_belgium.csv", sep=",")
-price_espagne=pd.read_csv(r"C:\temp\day_ahead_price_espagne.csv", sep=",")
-price_italy=pd.read_csv(r"C:\temp\day_ahead_price_italy.csv", sep=",")
-price_paysbas=pd.read_csv(r"C:\temp\day_ahead_price_paysbas.csv", sep=",")
-price_portugal=pd.read_csv(r"C:\temp\day_ahead_price_portugal.csv", sep=",")
-price_suisse=pd.read_csv(r"C:\temp\day_ahead_price_suisse.csv", sep=",")
-price_irlande=pd.read_csv(r"C:\temp\day_ahead_price_irlande.csv", sep=",")
-price_allemagne=pd.read_csv(r"C:\temp\day_ahead_price_allemagne.csv", sep=",")
+price_france=pd.read_csv(r"day_ahead_price_france.csv", sep=",")
+price_belgium=pd.read_csv(r"day_ahead_price_belgium.csv", sep=",")
+price_espagne=pd.read_csv(r"day_ahead_price_espagne.csv", sep=",")
+price_italy=pd.read_csv(r"day_ahead_price_italy.csv", sep=",")
+price_paysbas=pd.read_csv(r"day_ahead_price_paysbas.csv", sep=",")
+price_portugal=pd.read_csv(r"day_ahead_price_portugal.csv", sep=",")
+price_suisse=pd.read_csv(r"day_ahead_price_suisse.csv", sep=",")
+price_irlande=pd.read_csv(r"day_ahead_price_irlande.csv", sep=",")
+price_allemagne=pd.read_csv(r"day_ahead_price_allemagne.csv", sep=",")
 
 def nettoyer_prix(df):
     df = df.drop(columns=['Intraday Price (EUR/MWh)', 'Sequence', 'Area', 'Intraday Period (CET/CEST)'])
