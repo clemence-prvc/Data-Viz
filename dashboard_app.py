@@ -1,6 +1,10 @@
 import streamlit as st
 st.set_page_config(page_title="Dashboard Energy Europe", layout="wide", page_icon="🌍")
 
+import logging
+logging.basicConfig(level=logging.INFO)
+st.write("Démarrage de l'application...")
+
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
