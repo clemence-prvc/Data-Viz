@@ -14,15 +14,52 @@ import cartopy.feature as cfeature
 from matplotlib.patches import FancyArrowPatch
 import numpy as np
 
-price_france = pd.read_csv("day_ahead_price_france.csv", sep=",")
-price_belgium = pd.read_csv("day_ahead_price_belgium.csv", sep=",")
-price_espagne = pd.read_csv("day_ahead_price_espagne.csv", sep=",")
-price_italy = pd.read_csv("day_ahead_price_italy.csv", sep=",")
-price_paysbas = pd.read_csv("day_ahead_price_paysbas.csv", sep=",")
-price_portugal = pd.read_csv("day_ahead_price_portugal.csv", sep=",")
-price_suisse = pd.read_csv("day_ahead_price_suisse.csv", sep=",")
-price_irlande = pd.read_csv("day_ahead_price_irlande.csv", sep=",")
-price_allemagne = pd.read_csv("day_ahead_price_allemagne.csv", sep=",")
+import streamlit as st
+import pandas as pd
+
+# Fonction de chargement avec cache et optimisation
+@st.cache_data  # Cache les données pour éviter les rechargements inutiles
+def load_data(file_path):
+    """
+    Charge un fichier CSV de manière optimisée avec pyarrow.
+    Retourne un DataFrame pandas.
+    """
+    try:
+        # Utilisation de pyarrow pour une lecture plus rapide
+        return pd.read_csv(file_path, engine='pyarrow', sep=',')
+    except Exception as e:
+        st.error(f"Erreur lors du chargement de {file_path}: {str(e)}")
+        return pd.DataFrame()  # Retourne un DataFrame vide en cas d'erreur
+
+# Liste de tous vos fichiers CSV
+data_files = {
+    'France': 'day_ahead_price_france.csv',
+    'Belgium': 'day_ahead_price_belgium.csv',
+    'Spain': 'day_ahead_price_espagne.csv',
+    'Italy': 'day_ahead_price_italy.csv',
+    'Netherlands': 'day_ahead_price_paysbas.csv',
+    'Portugal': 'day_ahead_price_portugal.csv',
+    'Switzerland': 'day_ahead_price_suisse.csv',
+    'Ireland': 'day_ahead_price_irlande.csv',
+    'Germany': 'day_ahead_price_allemagne.csv'
+}
+
+# Chargement de toutes les données
+dataframes = {}
+for country, file in data_files.items():
+    dataframes[country] = load_data(file)
+    # Vérification du chargement
+    if not dataframes[country].empty:
+        st.success(f"Données {country} chargées ({len(dataframes[country])} lignes)")
+    else:
+        st.warning(f"Échec du chargement pour {country}")
+
+# Exemple d'utilisation
+if st.checkbox('Afficher un aperçu des données France'):
+    if not dataframes['France'].empty:
+        st.dataframe(dataframes['France'].head())
+    else:
+        st.error("Pas de données disponibles pour la France")
 
 def nettoyer_prix(df):
     df = df.drop(columns=['Intraday Price (EUR/MWh)', 'Sequence', 'Area', 'Intraday Period (CET/CEST)'])
